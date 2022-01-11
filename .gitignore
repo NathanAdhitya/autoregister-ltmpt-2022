@@ -1,0 +1,8 @@
+.env
+yarn-error.log
+yarn.lock
+
+registerPart1.html
+registerPart2.html
+
+node_modules
