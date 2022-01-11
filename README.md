@@ -6,7 +6,7 @@ Repository ini ditujukan bagi mereka yang frustrasi kenapa API Kemdikbud error t
 2. Clone repository ini
 3. `npm install` / `yarn install`
 4. Copas `.env.example` ke `.env`, dan isi sesuai data pribadi.
-5. Jalankan script register.js dengan `register.js`
+5. Jalankan script register.js dengan `node register.js`
 6. Harap bersabar? tunggu hingga `======succeeded fully registering======` muncul
 7. profit?
 
