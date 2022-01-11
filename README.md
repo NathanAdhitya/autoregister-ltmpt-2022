@@ -2,13 +2,14 @@
 Repository ini ditujukan bagi mereka yang frustrasi kenapa API Kemdikbud error terus ketika mencoba daftar LTMPT.
 
 ## Cara penggunaan:
-1. Pastikan anda memilik NodeJS v17 (inilah yang saya gunakan) dan npm/yarn
-2. Clone repository ini
-3. `npm install` / `yarn install`
-4. Copas `.env.example` ke `.env`, dan isi sesuai data pribadi.
-5. Jalankan script register.js dengan `node register.js`
-6. Harap bersabar? tunggu hingga `======succeeded fully registering======` muncul
-7. profit?
+1. Pastikan anda memiliki NodeJS v17 (versi node yang saya gunakan) dan npm. Node dan npm dapat di download dari [situs official NodeJS](https://nodejs.org/en/download/). 
+2. Download repository ini dengan menekan tombol hijau "Code" lalu "Download Zip". Unzip folder yang terdownload.
+3. Buka terminal anda (PowerShell atau Command Prompt di Windows), lalu gunakan command `cd Downloads/autoregister-ltmpt-2022` (sesuai dengan directory download anda) untuk navigasi ke root directory proyek. Pastikan anda berada pada directory yang benar dengan memastikan keberadaan file `package.json` dalam folder tersebut. Bagi yang belum bisa menggunakan command `cd`, silahkan menyimak artikel [berikut](https://www.howtogeek.com/659411/how-to-change-directories-in-command-prompt-on-windows-10/).
+4. Jalankan command `npm install`
+5. Rename file `.env.example` ke `.env`, dan edit isi file sesuai data pribadi anda. Pastikan anda hanya merubah nilai yang ada diantara tanda petik.
+6. Jalankan script register.js dengan menuliskan command `node register.js` pada terminal anda.
+7. Harap bersabar? tunggu hingga `======succeeded fully registering======` muncul.
+8. profit?
 
 ## Cara kerja:
 1. Runs 5 fetch operations in parallel, posting the first step until next data is retrieved.
