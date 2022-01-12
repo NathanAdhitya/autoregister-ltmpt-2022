@@ -13,8 +13,22 @@ dotenv.config()
 
 const { NISN, NPSN, TGL_LAHIR, EMAIL, PASSWORD } = process.env;
 console.log((NISN && NPSN && TGL_LAHIR && EMAIL && PASSWORD) ? ".env fully loaded." : "missing env variable/file?");
+// check password validity (min 8 chars, huruf and angka)
+const passwordRegex = /^[a-zA-Z0-9]{8,}$/;
+if (passwordRegex.test(PASSWORD)) {
+    console.log("password sesuai ketentuan, lanjut.");
+} else {
+    console.log("pastikan password anda sesuai ketentuan. edit password pada .env agar sesuai ketentuan dan jalankan ulang program ini.");
+    process.exit(0);
+}
+
 
 var registerPart1Done = false;
+
+/** @type {String} res */
+function validatePart1Response(res) {
+    return !res.match("Terjadi masalah dengan API Pusdatin Kemdikbud") && !res.match("Fatal error");
+}
 
 async function registerPart1() {
     while (!registerPart1Done) {
@@ -39,7 +53,7 @@ async function registerPart1() {
         const res = await fetchData.text();
 
         // success?
-        const success = (fetchData.status < 400) && !res.match("Terjadi masalah dengan API Pusdatin Kemdikbud");
+        const success = (fetchData.status < 400) && validatePart1Response(res);
 
         if (success) {
             console.log(`[${new Date().toISOString()}] ======succeeded======`);
@@ -64,6 +78,14 @@ async function registerPart2() {
     const dom = new JSDOM(fileData);
     const { FormData } = dom.window;
     const htmlForm = dom.window.document.querySelector("form");
+
+    if (!htmlForm) {
+        console.log(`[${new Date().toISOString()}] Failed to read registerPart1.html. May be invalid and or corrupt. Deleting file and retrying...`);
+        await fs.unlink("registerPart1-backup.html").then(() => undefined).catch(() => undefined);
+        await fs.rename("registerPart1.html", "registerPart1-backup.html");
+        return false;
+    }
+
     const data = new FormData(htmlForm);
     data.set("email", EMAIL);
     data.set("email_confirm", EMAIL);
@@ -112,14 +134,19 @@ async function registerPart2() {
             console.log(`[${new Date().toISOString()}] failed, trying again.`);
         }
     }
+
+    return true;
 }
 
 (async () => {
-    // check  if registerPart1.html exists already, if not, then do the first part.
-    if (await fs.access("registerPart1.html").then(() => true).catch(() => false) === false)
-        await Promise.race([registerPart1(), registerPart1(), registerPart1(), registerPart1(), registerPart1()]);
-    registerPart1Done = true;
-    await registerPart2();
+    var programFinished = false;
+    while (!programFinished) {
+        // check  if registerPart1.html exists already, if not, then do the first part.
+        if (await fs.access("registerPart1.html").then(() => true).catch(() => false) === false)
+            await Promise.race([registerPart1(), registerPart1(), registerPart1(), registerPart1(), registerPart1()]);
+        registerPart1Done = true;
+        programFinished = await registerPart2();
+    }
     process.exit(0);
 })();
 
