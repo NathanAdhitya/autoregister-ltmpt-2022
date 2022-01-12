@@ -81,7 +81,8 @@ async function registerPart2() {
 
     if (!htmlForm) {
         console.log(`[${new Date().toISOString()}] Failed to read registerPart1.html. May be invalid and or corrupt. Deleting file and retrying...`);
-        await fs.unlink("registerPart1.html");
+        await fs.unlink("registerPart1-backup.html").then(() => undefined).catch(() => undefined);
+        await fs.rename("registerPart1.html", "registerPart1-backup.html");
         return false;
     }
 
@@ -138,7 +139,7 @@ async function registerPart2() {
 }
 
 (async () => {
-    const programFinished = false;
+    var programFinished = false;
     while (!programFinished) {
         // check  if registerPart1.html exists already, if not, then do the first part.
         if (await fs.access("registerPart1.html").then(() => true).catch(() => false) === false)
