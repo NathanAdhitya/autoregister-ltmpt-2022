@@ -87,6 +87,12 @@ async function registerPart2() {
     }
 
     const data = new FormData(htmlForm);
+    // make sure it is the same as the NISN in the .env.
+    const currentNISN = data.get("nisn");
+    if (currentNISN != NISN) {
+        console.log("NISN Mismatch. Delete registerPart1.html manually and retry.")
+        process.exit(0);
+    }
     data.set("email", EMAIL);
     data.set("email_confirm", EMAIL);
     data.set("pwd", PASSWORD);
@@ -147,6 +153,7 @@ async function registerPart2() {
         registerPart1Done = true;
         programFinished = await registerPart2();
     }
+    await fs.unlink("registerPart1.html");
     process.exit(0);
 })();
 
