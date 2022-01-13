@@ -10,7 +10,7 @@ Repository ini ditujukan bagi mereka yang frustrasi kenapa API Kemdikbud error t
 5. Rename file `.env.example` ke `.env`, dan edit isi file sesuai data pribadi anda. Pastikan anda hanya merubah nilai yang ada diantara tanda petik.
 6. Jalankan script register.js dengan menuliskan command `node register.js` pada terminal anda.
 7. Harap bersabar? tunggu hingga `======succeeded fully registering======` muncul.
-8. profit?
+8. profit? cek email anda untuk melanjutkan verifikasi. setelah itu anda dapat login di portal.ltmpt.ac.id
 
 ## Cara kerja:
 1. Runs 5 fetch operations in parallel, posting the first step until next data is retrieved.
