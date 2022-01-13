@@ -4,7 +4,7 @@ Repository ini ditujukan bagi mereka yang frustrasi kenapa API Kemdikbud error t
 
 ## Cara penggunaan:
 1. Pastikan anda memiliki NodeJS v17 (versi node yang saya gunakan) dan npm. Node dan npm dapat di download dari [situs official NodeJS](https://nodejs.org/en/download/). Atau jika menggunakan chocolatey, dapat diinstal menggunakan `choco install nodejs -y` sebagai admin.
-2. Download repository ini dengan menekan tombol hijau "Code" lalu "Download Zip". Unzip folder yang terdownload.
+2. Download repository ini dengan menekan tombol hijau "Code" lalu "Download Zip". Unzip folder yang terdownload. Jika anda tidak menemukan tombol tersebut pada halaman ini, silahkan coba kunjungi halaman [link repo utama](https://github.com/NathanAdhitya/autoregister-ltmpt-2022).
 3. Buka terminal anda (PowerShell atau Command Prompt di Windows), lalu gunakan command `cd Downloads/autoregister-ltmpt-2022-master` (sesuai dengan directory download anda) untuk navigasi ke root directory proyek. Pastikan anda berada pada directory yang benar dengan memastikan keberadaan file `package.json` dalam folder tersebut. Bagi yang belum bisa menggunakan command `cd`, silahkan menyimak artikel [berikut](https://www.howtogeek.com/659411/how-to-change-directories-in-command-prompt-on-windows-10/).
 4. Jalankan command `npm install`
 5. Rename file `.env.example` ke `.env`, dan edit isi file sesuai data pribadi anda. Pastikan anda hanya merubah nilai yang ada diantara tanda petik.
