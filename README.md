@@ -1,6 +1,6 @@
 # Registrasi LTMPT Otomatis 2022
 ## Harap ketahui!
-Repository ini ditujukan bagi mereka yang frustrasi kenapa API Kemdikbud error terus ketika mencoba daftar LTMPT.
+Repository ini ditujukan untuk membantu mereka yang frustrasi akibat API Kemdikbud error terus / kuota penuh ketika mencoba daftar LTMPT.
 
 ## Cara penggunaan:
 1. Pastikan anda memiliki NodeJS v17 (versi node yang saya gunakan) dan npm. Node dan npm dapat di download dari [situs official NodeJS](https://nodejs.org/en/download/). Atau jika menggunakan chocolatey, dapat diinstal menggunakan `choco install nodejs -y` sebagai admin.
