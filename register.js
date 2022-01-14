@@ -1,159 +1,89 @@
 /**
  * Automatic script that runs and retries automatically, because LTMPT keeps erroring and is frustrating.
  * Registrasi LTMPT 2022, isi .env sesuai dengan kebutuhan.
- * Script is untested as was only used twice. Use at your own risk.
+ * Script is partially tested as was only used twice. Use at your own risk.
  */
 
-import fetch from "node-fetch";
-import { JSDOM } from "jsdom";
+// Need to load the .env file
+import dotenv from "dotenv";
+dotenv.config();
+
+// Main dependencies
+import ora from "ora";
+import chalk from "chalk";
+import EventEmitter from "events";
 import fs from "fs/promises";
+import { log } from "./utils/Logger.js";
+import * as validators from "./utils/Validators.js";
 
-import dotenv from 'dotenv';
-dotenv.config()
+// The scripts themselves
+import registerPart1 from "./scripts/RegisterPart1.js";
+import {
+    prepareRegisterPart2,
+    registerPart2,
+} from "./scripts/RegisterPart2.js";
 
-const { NISN, NPSN, TGL_LAHIR, EMAIL, PASSWORD } = process.env;
-console.log((NISN && NPSN && TGL_LAHIR && EMAIL && PASSWORD) ? ".env fully loaded." : "missing env variable/file?");
-// check password validity (min 8 chars, huruf and angka)
-const passwordRegex = /^[a-zA-Z0-9]{8,}$/;
-if (passwordRegex.test(PASSWORD)) {
-    console.log("password sesuai ketentuan, lanjut.");
+// Check validity of env variables.
+const envValidation = validators.validateEnv();
+if (envValidation.length === 0) {
+    log(".env sesuai ketentuan. Melanjutkan program.");
 } else {
-    console.log("pastikan password anda sesuai ketentuan. edit password pada .env agar sesuai ketentuan dan jalankan ulang program ini.");
+    log(chalk.redBright(".env tidak sesuai ketentuan. Errors:"));
+    envValidation.forEach((v) => log(chalk.red(v[0])));
     process.exit(0);
-}
-
-
-var registerPart1Done = false;
-
-/** @type {String} res */
-function validatePart1Response(res) {
-    return !res.match("Terjadi masalah dengan API Pusdatin Kemdikbud") && !res.match("Fatal error");
-}
-
-async function registerPart1() {
-    while (!registerPart1Done) {
-        const fetchData = await fetch("https://reg.ltmpt.ac.id/reg/siswa/confirm", {
-            "headers": {
-                "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-                "accept-language": "en-US,en;q=0.9",
-                "cache-control": "max-age=0",
-                "content-type": "application/x-www-form-urlencoded",
-                "sec-fetch-dest": "document",
-                "sec-fetch-mode": "navigate",
-                "sec-fetch-site": "same-origin",
-                "sec-fetch-user": "?1",
-                "upgrade-insecure-requests": "1",
-                "Referer": "https://reg.ltmpt.ac.id/reg/siswa/confirm",
-                "Referrer-Policy": "strict-origin-when-cross-origin"
-            },
-            "body": `nisn=${encodeURIComponent(NISN)}&npsn=${encodeURIComponent(NPSN)}&tgl_lahir=${encodeURIComponent(TGL_LAHIR)}`,
-            "method": "POST"
-        });
-
-        const res = await fetchData.text();
-
-        // success?
-        const success = (fetchData.status < 400) && validatePart1Response(res);
-
-        if (success) {
-            console.log(`[${new Date().toISOString()}] ======succeeded======`);
-            console.log(`[${new Date().toISOString()}] writing file results to registerPart1.html`);
-            await fs.writeFile("registerPart1.html", res);
-            break;
-        } else {
-            console.log(`[${new Date().toISOString()}] failed, trying again.`);
-        }
-    }
-    return true;
-}
-
-async function registerPart2() {
-    // get form, fill data automatically according to .env
-    var fileData;
-    try {
-        fileData = await fs.readFile("registerPart1.html", "utf-8");
-    } catch (e) {
-        return false;
-    }
-    const dom = new JSDOM(fileData);
-    const { FormData } = dom.window;
-    const htmlForm = dom.window.document.querySelector("form");
-
-    if (!htmlForm) {
-        console.log(`[${new Date().toISOString()}] Failed to read registerPart1.html. May be invalid and or corrupt. Deleting file and retrying...`);
-        await fs.unlink("registerPart1-backup.html").then(() => undefined).catch(() => undefined);
-        await fs.rename("registerPart1.html", "registerPart1-backup.html");
-        return false;
-    }
-
-    const data = new FormData(htmlForm);
-    // make sure it is the same as the NISN in the .env.
-    const currentNISN = data.get("nisn");
-    if (currentNISN != NISN) {
-        console.log("NISN Mismatch. Delete registerPart1.html manually and retry.")
-        process.exit(0);
-    }
-    data.set("email", EMAIL);
-    data.set("email_confirm", EMAIL);
-    data.set("pwd", PASSWORD);
-    data.set("pwd_confirm", PASSWORD);
-    data.set("term", "on");
-
-    const fdObj = {};
-    data.forEach((value, key) => fdObj[key] = value);
-    console.log(JSON.stringify(fdObj));
-
-    // convert to urlsearchparams
-    const databody = new URLSearchParams(data).toString();
-    console.log(databody);
-
-    while (true) {
-        const fetchData = await fetch("https://reg.ltmpt.ac.id/reg/siswa/register", {
-            "headers": {
-                "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-                "accept-language": "en-US,en;q=0.9",
-                "cache-control": "max-age=0",
-                "content-type": "application/x-www-form-urlencoded",
-                "sec-fetch-dest": "document",
-                "sec-fetch-mode": "navigate",
-                "sec-fetch-site": "same-origin",
-                "sec-fetch-user": "?1",
-                "upgrade-insecure-requests": "1",
-                "Referer": "https://reg.ltmpt.ac.id/reg/siswa/confirm",
-                "Referrer-Policy": "strict-origin-when-cross-origin"
-            },
-            "body": databody,
-            "method": "POST"
-        });
-
-        const res = await fetchData.text();
-
-        // success?
-        const success = (fetchData.status < 400);
-
-        if (success) {
-            console.log(`[${new Date().toISOString()}] ======succeeded fully registering======`);
-            console.log(`[${new Date().toISOString()}] writing file results to registerPart2.html`);
-            await fs.writeFile("registerPart2.html", res);
-            break;
-        } else {
-            console.log(`[${new Date().toISOString()}] failed, trying again.`);
-        }
-    }
-
-    return true;
 }
 
 (async () => {
-    var programFinished = false;
-    while (!programFinished) {
-        // check  if registerPart1.html exists already, if not, then do the first part.
-        if (await fs.access("registerPart1.html").then(() => true).catch(() => false) === false)
-            await Promise.race([registerPart1(), registerPart1(), registerPart1(), registerPart1(), registerPart1()]);
-        registerPart1Done = true;
-        programFinished = await registerPart2();
-    }
-    await fs.unlink("registerPart1.html");
-    process.exit(0);
-})();
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+        // check if registerPart1.html exists already, if not, then do part 1.
+        if (
+            (await fs
+                .access("registerPart1.html")
+                .then(() => true)
+                .catch(() => false)) === false
+        ) {
+            const spinner1 = ora("Running registration part 1").start();
+            const abortEmitter = new EventEmitter();
 
+            let isPart1Finished = false;
+            const p1Func = async () => {
+                while (!isPart1Finished) {
+                    if (
+                        (await registerPart1(
+                            spinner1,
+                            abortEmitter,
+                            process.env
+                        )) === true
+                    ) {
+                        break;
+                    }
+                }
+            };
+
+            await Promise.race([
+                p1Func(),
+                p1Func(),
+                p1Func(),
+                p1Func(),
+                p1Func(),
+            ]);
+
+            // abort and cleanup
+            isPart1Finished = true;
+            abortEmitter.emit("abort");
+        }
+
+        const dataBody = await prepareRegisterPart2(process.env);
+        if (!dataBody) continue;
+
+        const spinner2 = ora("Running registration part 2").start();
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+            const part2Res = await registerPart2(spinner2, dataBody);
+            if (part2Res === true)
+                // Ensure everything terminates correctly.
+                process.exit(0);
+        }
+    }
+})();
