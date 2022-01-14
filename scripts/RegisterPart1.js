@@ -45,9 +45,9 @@ export default async function registerPart1(
         isAborted = true;
         abortController.abort();
     };
-    progEvents.once("abortPart1", abort);
+    progEvents.once("abort", abort);
     const fetchData = await fetchPromise;
-    progEvents.removeListener("abortPart1", abort);
+    progEvents.removeListener("abort", abort);
 
     if (fetchData !== false) {
         const res = await fetchData.text();
