@@ -1,5 +1,5 @@
 ---
-name: "bump_and_release"
+name: "build"
 
 on:
   push:
