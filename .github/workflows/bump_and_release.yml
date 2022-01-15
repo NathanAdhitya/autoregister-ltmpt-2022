@@ -15,18 +15,18 @@ jobs:
       JEST_VERBOSE: ${{ secrets.JEST_VERBOSE }}
 
     steps:
+      - name: "Checkout source code"
+        uses: "actions/checkout@v2.3.4"
+        with:
+          lfs: true
+          fetch-depth: 0
+
       - name:  'Automated Version Bump'
         uses:  'phips28/gh-action-bump-version@master'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           default: prerelease
-
-      - name: "Checkout source code"
-        uses: "actions/checkout@v2.3.4"
-        with:
-          lfs: true
-          fetch-depth: 0
 
       - id: "yarn-cache"
         run: echo "::set-output name=dir::$(yarn cache dir)"
