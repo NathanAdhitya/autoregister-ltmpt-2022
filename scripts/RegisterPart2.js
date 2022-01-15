@@ -67,7 +67,7 @@ export async function prepareRegisterPart2({
                 "NISN Mismatch. Delete registerPart1.html manually and retry."
             )
         );
-        process.exit(0);
+        return null;
     }
     data.set("email", EMAIL);
     data.set("email_confirm", EMAIL);

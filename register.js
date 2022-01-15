@@ -23,19 +23,20 @@ import {
     registerPart2,
 } from "./scripts/RegisterPart2.js";
 
+var validationPass = false;
 // Check validity of env variables.
 const envValidation = validators.validateEnv();
 if (envValidation.length === 0) {
     log(".env sesuai ketentuan. Melanjutkan program.");
+    validationPass = true;
 } else {
     log(chalk.redBright(".env tidak sesuai ketentuan. Errors:"));
     envValidation.forEach((v) => log(chalk.red(v[0])));
-    process.exit(0);
 }
 
 (async () => {
     // eslint-disable-next-line no-constant-condition
-    while (true) {
+    while (validationPass) {
         // check if registerPart1.html exists already, if not, then do part 1.
         if (
             (await fs
@@ -75,15 +76,23 @@ if (envValidation.length === 0) {
         }
 
         const dataBody = await prepareRegisterPart2(process.env);
+        if (dataBody === null) break;
         if (!dataBody) continue;
 
         const spinner2 = ora("Running registration part 2").start();
         // eslint-disable-next-line no-constant-condition
         while (true) {
             const part2Res = await registerPart2(spinner2, dataBody);
-            if (part2Res === true)
+            if (part2Res === true) {
                 // Ensure everything terminates correctly.
-                process.exit(0);
+                validationPass = false;
+                break;
+            }
         }
     }
+
+    console.log("Press any key to close program.");
+    process.stdin.setRawMode(true);
+    process.stdin.resume();
+    process.stdin.on("data", process.exit.bind(process, 0));
 })();
