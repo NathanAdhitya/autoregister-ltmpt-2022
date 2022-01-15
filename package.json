@@ -3,6 +3,10 @@
     "type": "module",
     "version": "2.0.0",
     "main": "register.js",
+    "scripts": {
+        "start": "node register.js",
+        "build": "caxa --exclude .git --input . --output build/autoregister-ltmpt-2022.exe -- '{{caxa}}/node_modules/.bin/node' '{{caxa}}/register.js'"
+    },
     "license": "MIT",
     "dependencies": {
         "chalk": "^5.0.0",
@@ -12,6 +16,7 @@
         "ora": "^6.0.1"
     },
     "devDependencies": {
+        "caxa": "^2.1.0",
         "eslint": "^8.6.0"
     }
 }
