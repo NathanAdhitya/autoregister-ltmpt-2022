@@ -9,8 +9,8 @@ on:
       - "*"
 
 jobs:
-  bump_and_release:
-    runs-on: "windows-latest"
+  bump:
+    runs-on: "ubuntu-latest"
     env:
       JEST_VERBOSE: ${{ secrets.JEST_VERBOSE }}
 
@@ -27,6 +27,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           patch-wording: "fix,fixes,patch"
+  build:
+    needs: bump
+    runs-on: "windows-latest"
+    steps:
       - name: "Checkout source code"
         uses: "actions/checkout@v2.3.4"
         with:
