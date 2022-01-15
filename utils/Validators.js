@@ -37,7 +37,7 @@ export function validateEnv(env = process.env) {
         ],
     ];
 
-    return validations.filter((value) => value[1] === false);
+    return validations.filter((value) => value[1] !== true);
 }
 
 /**
