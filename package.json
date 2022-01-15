@@ -5,7 +5,7 @@
     "main": "register.js",
     "scripts": {
         "start": "node register.js",
-        "build": "caxa --exclude .git --input . --output build/autoregister-ltmpt-2022.exe -- '{{caxa}}/node_modules/.bin/node' '{{caxa}}/register.js'"
+        "build": "caxa --exclude .git --exclude build --exclude .github --input . --output \"build/build.exe\" -- \"{{caxa}}/node_modules/.bin/node\" \"{{caxa}}/register.js\""
     },
     "license": "MIT",
     "dependencies": {
