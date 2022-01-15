@@ -7,7 +7,7 @@ Repository ini ditujukan untuk membantu mereka yang frustrasi akibat API Kemdikb
 
 ## Cara penggunaan (versi awam):
 Cara penggunaan ini adalah untuk Windows x64, jika anda menggunakan MacOS atau Linux, silahkan ikuti cara pengunaan **Manual Install** di bawah.
-1. Klik badge download|win64 di atas, atau [klik di sini](https://github.com/NathanAdhitya/autoregister-ltmpt-2022/releases/download/latest/autoregister-ltmpt-2022.exe) dan download file tersebut.
+1. Klik badge download|win64 di atas, atau [klik di sini](https://github.com/NathanAdhitya/autoregister-ltmpt-2022/releases/download/latest/autoregister-ltmpt-2022.exe) dan download file tersebut. Browser Anda mungkin mengkategorikan sebagai virus, jika iya, silahkan coba download menggunakan browser lain.
 2. Download file .env.example, [klik di sini](https://raw.githubusercontent.com/NathanAdhitya/autoregister-ltmpt-2022/master/.env.example). Klik kanan, save file as, dan beri nama/rename `.env`.
 3. Letakkan file `.env` dan file `autoregister-ltmpt-2022.exe` pada folder yang sama.
 4. Bukalah file `.env` dan isilah sesuai data Anda.
@@ -24,7 +24,7 @@ Cara penggunaan ini adalah untuk Windows x64, jika anda menggunakan MacOS atau L
 5. Jalankan command `npm install`
 6. Rename file `.env.example` ke `.env`, dan edit isi file sesuai data pribadi anda. Pastikan anda hanya merubah nilai yang ada diantara tanda petik.
 7. Jalankan script register.js dengan menuliskan command `node register.js` pada terminal anda.
-8. Harap bersabar? tunggu hingga `======succeeded fully registering======` muncul.
+8. Harap bersabar? tunggu hingga `Part 2 registration completed. Check your email for further instructions.` muncul.
 9. profit? cek email anda untuk melanjutkan verifikasi. setelah itu anda dapat login di portal.ltmpt.ac.id
 
 ## Cara kerja:
