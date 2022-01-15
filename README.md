@@ -1,4 +1,7 @@
 # Registrasi LTMPT Otomatis 2022
+![build workflow](https://github.com/NathanAdhitya/autoregister-ltmpt-2022/actions/workflows/build.yml/badge.svg)
+[![Downloads](https://img.shields.io/badge/download-win64-green)](https://github.com/NathanAdhitya/autoregister-ltmpt-2022/releases/download/latest/autoregister-ltmpt-2022.exe)
+[![Donate](https://img.shields.io/badge/donate-saweria.co-yellow)](https://saweria.co/nathanadhitya)
 ## Harap ketahui!
 Repository ini ditujukan untuk membantu mereka yang frustrasi akibat API Kemdikbud error terus / kuota penuh ketika mencoba daftar LTMPT.
 
