@@ -1,7 +1,7 @@
 {
     "name": "autoregister-ltmpt-2022",
     "type": "module",
-    "version": "2.0.8",
+    "version": "2.0.9",
     "main": "register.js",
     "scripts": {
         "start": "node register.js",
