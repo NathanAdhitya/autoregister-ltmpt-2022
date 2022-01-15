@@ -5,7 +5,18 @@
 ## Harap ketahui!
 Repository ini ditujukan untuk membantu mereka yang frustrasi akibat API Kemdikbud error terus / kuota penuh ketika mencoba daftar LTMPT.
 
-## Cara penggunaan:
+## Cara penggunaan (versi awam):
+Cara penggunaan ini adalah untuk Windows x64, jika anda menggunakan MacOS atau Linux, silahkan ikuti cara pengunaan **Manual Install** di bawah.
+1. Klik badge download|win64 di atas, atau [klik di sini](https://github.com/NathanAdhitya/autoregister-ltmpt-2022/releases/download/latest/autoregister-ltmpt-2022.exe) dan download file tersebut.
+2. Download file .env.example, [klik di sini](https://raw.githubusercontent.com/NathanAdhitya/autoregister-ltmpt-2022/master/.env.example). Klik kanan, save file as, dan beri nama/rename `.env`.
+3. Letakkan file `.env` dan file `autoregister-ltmpt-2022.exe` pada folder yang sama.
+4. Bukalah file `.env` dan isilah sesuai data Anda.
+5. Jalankan `autoregister-ltmpt-2022.exe`.
+6. Harap ditunggu. Jika terjadi masalah, silahkan buat Issue pada GitHub ini.
+7. Jika berhasil, akan muncul `Part 2 registration completed. Check your email for further instructions.`
+8. Cek email Anda dan selamat menikmati. Don't forget to star this repo and share it to your friends!
+
+## Cara penggunaan (Manual Install):
 1. Pastikan anda memiliki NodeJS v17 (versi node yang saya gunakan) dan npm. Node dan npm dapat di download dari [situs official NodeJS](https://nodejs.org/en/download/). Atau jika menggunakan chocolatey, dapat diinstal menggunakan `choco install nodejs -y` sebagai admin.
 2. Download repository ini dengan menekan tombol hijau "Code" lalu "Download Zip". Unzip folder yang terdownload. Jika anda tidak menemukan tombol tersebut pada halaman ini, silahkan coba kunjungi halaman [link repo utama](https://github.com/NathanAdhitya/autoregister-ltmpt-2022).
 3. Buka terminal anda (PowerShell atau Command Prompt di Windows), lalu gunakan command `cd Downloads/autoregister-ltmpt-2022-master` (sesuai dengan directory download anda) untuk navigasi ke root directory proyek. Pastikan anda berada pada directory yang benar dengan memastikan keberadaan file `package.json` dalam folder tersebut. Bagi yang belum bisa menggunakan command `cd`, silahkan menyimak artikel [berikut](https://www.howtogeek.com/659411/how-to-change-directories-in-command-prompt-on-windows-10/).
